@@ -1,0 +1,37 @@
+-Mỗi khi một cơ sở dữ liệu đưọc tạo ra, bảng sysdatabase trong cơ sở dữ liệu master sẽ chứa thông tin về bảng mới tạo ra đó. Do đó ta có thể liệt kê tất cả các cơ sở dữ liệu trong một máy chủ bằng cách liệt kê các bản ghi trong bảng sysdatabase
+--> Để xem tất cả các CƠ SỞ DỮ LIỆU người dùng trong MÁY CHỦ
+```sh
+select *
+from master.dbo.sysdatabase
+where sid <> 1
+```
+
+-Xem tất cả các BẢNG người dùng trong CƠ SỞ DỮ LIỆU. 
++Mỗi khi một bảng được tạo ra trong cơ sở dữ lieeij, thông tin về bảng đó sẽ được chứa trong bảng sysobjects của chính cơ sở dữ liệu vừa tạo. Vì vậy chúng ta có thể xem danh sách bảng trong cơ sở dữ liệu bằng cách truy vấn bảng sysobjects. Các bảng do người dùng tạo có kiểu là `'U'`
+```sh
+select *
+from Northwind.dbo.sysobject
+where xtype='U'
+```
+Ví dụ này ta lấy tất cả các bản ghi bảng sysobjects của cơ sở dữ liệu Northwind nhưng chỉ lấy những bảng ngưòi dùng,nghĩa là những bảng có dạng xtype='U'
+
+-Xem tất cả các CỘT thuộc về một BẢNG 
++Mỗi khi một cột trong bảng đưọc tạo, bảng `syscolumns` trong cơ sở dữ liệu sẽ chứa thông in về cột vừa tạo. Thuộc tính id của cột sẽ chứa định danh của bảng mà cột đó thuộc về. Vì vậy để xem các cột trong một bảng dữ liệu, chúng ta có thể truy vấn bảng `syscolumns`
+```sh
+declare @x int
+set @x = (select id from sysobjects where name='Employees')
+select * from syscolumns where id = @x
+```
+-Trong ví dụ này, ta khai báo biến @x kiểu int, sau đó lấy id của bảng Employees vào biến @x, rồi ta lấy tất cả các cột trong bản syscolumns mà có id bằng @a, cũng có nghĩa là id của bảng Employees. Do vậy ta sẽ liệt kê tất cả các cột trong bảng Employees
+
+
+
+
+
+
+
+
+
+
+
+
